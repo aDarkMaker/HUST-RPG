@@ -1,85 +1,79 @@
 import { Scene, GameObject } from '@eva/eva.js';
 import { Sprite } from '@eva/plugin-renderer-sprite';
+import { Graphics } from '@eva/plugin-renderer-graphics';
+import { game } from '../scripts/gameInit';
 
 export default class MainScene extends Scene {
   constructor() {
-    super('MainScene');
-    this.speed = 5; // 移动速度
-    this.init();
+    super();
+    this.name = 'MainScene';
+    this.speed = 5;
   }
 
   init() {
-    // 创建背景
-    const background = new GameObject('background', {
-      size: { width: window.innerWidth, height: window.innerHeight },
-      position: { x: 0, y: 0 }
+    // 创建游戏背景
+    const gameBg = new GameObject('gameBg', {
+      size: { width: 1920, height: 1080 },
+      position: { x: 0, y: 0 },
+      origin: { x: 0, y: 0 }
     });
-    background.addComponent(new Sprite({
+    
+    const bgSprite = new Sprite({
       resource: 'bg-campus',
-      spriteName: 'bg-campus'
-    }));
-    this.addChild(background);
+      spriteName: 'image'
+    });
+    gameBg.addComponent(bgSprite);
+    this.addGameObject(gameBg);
 
     // 创建角色
     const player = new GameObject('player', {
-      size: { width: 64, height: 64 },
-      position: { x: window.innerWidth / 2, y: window.innerHeight / 2 }
+      size: { width: 48, height: 48 },
+      position: { x: 960, y: 540 },
+      origin: { x: 0.5, y: 0.5 }
     });
-    player.addComponent(new Sprite({
+    
+    const playerSprite = new Sprite({
       resource: 'character',
-      spriteName: 'character'
-    }));
-    this.addChild(player);
+      spriteName: 'image'
+    });
+    player.addComponent(playerSprite);
+    this.addGameObject(player);
 
     // 添加键盘控制
-    this.bindKeyboardEvents();
+    this.bindKeyboardEvents(player);
   }
 
-  bindKeyboardEvents() {
-    // 记录按键状态
-    this.keys = {
+  bindKeyboardEvents(player) {
+    const keys = {
       w: false,
       a: false,
       s: false,
       d: false
     };
 
-    // 键盘按下事件
     window.addEventListener('keydown', (e) => {
       switch(e.key.toLowerCase()) {
-        case 'w': this.keys.w = true; break;
-        case 'a': this.keys.a = true; break;
-        case 's': this.keys.s = true; break;
-        case 'd': this.keys.d = true; break;
+        case 'w': keys.w = true; break;
+        case 'a': keys.a = true; break;
+        case 's': keys.s = true; break;
+        case 'd': keys.d = true; break;
       }
     });
 
-    // 键盘释放事件
     window.addEventListener('keyup', (e) => {
       switch(e.key.toLowerCase()) {
-        case 'w': this.keys.w = false; break;
-        case 'a': this.keys.a = false; break;
-        case 's': this.keys.s = false; break;
-        case 'd': this.keys.d = false; break;
+        case 'w': keys.w = false; break;
+        case 'a': keys.a = false; break;
+        case 's': keys.s = false; break;
+        case 'd': keys.d = false; break;
       }
     });
 
-    // 添加更新循环
-    this.gameObject.addComponent({
-      update: () => {
-        this.updatePlayerPosition();
-      }
+    game.ticker.add(() => {
+      if (keys.w) player.transform.position.y -= this.speed;
+      if (keys.s) player.transform.position.y += this.speed;
+      if (keys.a) player.transform.position.x -= this.speed;
+      if (keys.d) player.transform.position.x += this.speed;
     });
-  }
-
-  updatePlayerPosition() {
-    const player = this.gameObjects.find(obj => obj.name === 'player');
-    if (!player) return;
-
-    // 计算移动方向
-    if (this.keys.w) player.position.y -= this.speed;
-    if (this.keys.s) player.position.y += this.speed;
-    if (this.keys.a) player.position.x -= this.speed;
-    if (this.keys.d) player.position.x += this.speed;
   }
 }

@@ -5,7 +5,8 @@ module.exports = {
   entry: './scripts/gameInit.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/dist/'
   },
   resolve: {
     fallback: {
@@ -18,7 +19,15 @@ module.exports = {
     }
   },
   devServer: {
-    static: './dist',
-    hot: true
+    static: [
+      {
+        directory: path.join(__dirname, './'),
+        publicPath: '/'
+      }
+    ],
+    hot: true,
+    devMiddleware: {
+      publicPath: '/dist/'
+    }
   }
 };
