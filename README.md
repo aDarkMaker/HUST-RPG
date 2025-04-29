@@ -25,12 +25,28 @@ HUST-RPG 是一款以华中科技大学校园为背景的网页 RPG 游戏。玩
 - 东九教学楼：感受课堂气息
 - 韵苑操场：体验运动精神
 
+## 📂 项目结构
+
+```
+HUST-RPG
+├── assets/          # 游戏资源文件（图片、音效等）
+├── components/      # 游戏组件（如主场景）
+├── scenes/          # 游戏场景文件
+├── scripts/         # 游戏初始化脚本
+├── styles/          # 样式文件（CSS/SCSS）
+├── index.html       # 游戏入口 HTML 文件
+├── package.json     # 项目依赖和脚本配置
+├── LICENSE          # 许可证文件
+└── README.md        # 项目说明文档
+```
+
 ## 🛠️ 技术栈
 
 - Eva.js - 强大的游戏引擎
-- TypeScript & JavaScript- 开发语言
+- JavaScript - 开发语言
 - Webpack - 构建工具
 - Pixel Art - 游戏美术风格
+- CSS/SCSS - 样式设计
 
 ## 🤝 贡献者
 
