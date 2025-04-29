@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <!-- meta标签和其他头部元素 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HUST-RPG</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        #canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
 </head>
 <body>
-    <!-- 初始化Eva.js 并载入主场景 -->
-    <script>
-        let game = new Eva({
-            container: document.getElementById('game'),
-            width: window.innerWidth,
-            height: window.innerHeight,
-            resources: ['assetPath']
-        });
-        game.load();
-        game.addScene(new MainScene());
-        game.start();
-    </script>
+    <canvas id="canvas"></canvas>
+    <script src="dist/bundle.js"></script>
 </body>
 </html>

@@ -10,9 +10,21 @@
     "@eva/plugin-renderer-nine-patch": "^1.2.8",
     "@eva/plugin-renderer-render": "^1.2.8",
     "@eva/plugin-renderer-spine": "^1.2.8",
+    "@eva/plugin-renderer-sprite": "^1.2.8",
     "@eva/plugin-renderer-sprite-animation": "^1.2.8",
     "@eva/plugin-renderer-tiling-sprite": "^1.2.8",
     "@eva/plugin-sound": "^1.2.8",
     "@eva/plugin-transition": "^1.2.8"
+  },
+  "devDependencies": {
+    "path-browserify": "^1.0.1",
+    "url": "^0.11.4",
+    "webpack": "^5.0.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.1"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --open",
+    "build": "webpack"
   }
 }

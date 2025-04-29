@@ -1,4 +1,4 @@
-import { Scene } from 'eva.js';
+import { Scene } from '@eva/eva.js';
 
 export default class MainScene extends Scene {
     constructor() {
