@@ -1,49 +1,73 @@
 import { Scene, GameObject } from '@eva/eva.js';
-import { Sprite } from '@eva/plugin-renderer-sprite';
-import { Graphics } from '@eva/plugin-renderer-graphics';
-import { game } from '../scripts/gameInit';
+import { Img } from '@eva/plugin-renderer-img';
+import { Event } from '@eva/plugin-renderer-event';
 
 export default class MainScene extends Scene {
   constructor() {
     super();
-    this.name = 'MainScene';
     this.speed = 5;
+    this.init();
   }
 
   init() {
+    // 设置场景大小
+    this.transform.size.width = window.innerWidth;
+    this.transform.size.height = window.innerHeight;
+
     // 创建游戏背景
-    const gameBg = new GameObject('gameBg', {
-      size: { width: 1920, height: 1080 },
+    const map = new GameObject('map', {
+      size: {
+        width: window.innerWidth,
+        height: window.innerHeight
+      },
       position: { x: 0, y: 0 },
-      origin: { x: 0, y: 0 }
+      origin: { x: 0, y: 0 },
+      anchor: { x: 0, y: 0 }
     });
-    
-    const bgSprite = new Sprite({
-      resource: 'bg-campus',
-      spriteName: 'image'
-    });
-    gameBg.addComponent(bgSprite);
-    this.addGameObject(gameBg);
+
+    // 添加图片组件
+    const mapImg = map.addComponent(new Img({
+      resource: 'map',  // 对应 loader.js 中定义的资源名称
+    }));
+
+    // 将地图添加到场景
+    this.addChild(map);
 
     // 创建角色
-    const player = new GameObject('player', {
-      size: { width: 48, height: 48 },
-      position: { x: 960, y: 540 },
-      origin: { x: 0.5, y: 0.5 }
+    const character = new GameObject('character', {
+      size: { width: 64, height: 64 },
+      position: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+      origin: { x: 0.5, y: 0.5 },
+      anchor: { x: 0.5, y: 0.5 }
     });
+
+    // 为角色添加图片组件
+    character.addComponent(new Img({
+      resource: 'character'
+    }));
+
+    // 添加事件组件
+    character.addComponent(new Event());
     
-    const playerSprite = new Sprite({
-      resource: 'character',
-      spriteName: 'image'
-    });
-    player.addComponent(playerSprite);
-    this.addGameObject(player);
+    this.addChild(character);
+    this.character = character;
 
     // 添加键盘控制
-    this.bindKeyboardEvents(player);
+    this.bindKeyboardEvents();
+
+    // 监听窗口大小变化
+    window.addEventListener('resize', () => {
+      // 更新场景大小
+      this.transform.size.width = window.innerWidth;
+      this.transform.size.height = window.innerHeight;
+      
+      // 更新地图大小
+      map.transform.size.width = window.innerWidth;
+      map.transform.size.height = window.innerHeight;
+    });
   }
 
-  bindKeyboardEvents(player) {
+  bindKeyboardEvents() {
     const keys = {
       w: false,
       a: false,
@@ -69,11 +93,14 @@ export default class MainScene extends Scene {
       }
     });
 
-    game.ticker.add(() => {
-      if (keys.w) player.transform.position.y -= this.speed;
-      if (keys.s) player.transform.position.y += this.speed;
-      if (keys.a) player.transform.position.x -= this.speed;
-      if (keys.d) player.transform.position.x += this.speed;
-    });
+    // 使用游戏的update循环来更新位置
+    this.update = () => {
+      if (!this.character) return;
+      
+      if (keys.w) this.character.transform.position.y -= this.speed;
+      if (keys.s) this.character.transform.position.y += this.speed;
+      if (keys.a) this.character.transform.position.x -= this.speed;
+      if (keys.d) this.character.transform.position.x += this.speed;
+    };
   }
 }

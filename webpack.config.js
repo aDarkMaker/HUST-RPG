@@ -6,7 +6,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/dist/'
+    publicPath: '/'
   },
   resolve: {
     fallback: {
@@ -18,16 +18,27 @@ module.exports = {
       "crypto": false
     }
   },
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpg|gif)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/[hash][ext][query]'
+        }
+      }
+    ]
+  },
   devServer: {
     static: [
       {
-        directory: path.join(__dirname, './'),
+        directory: path.join(__dirname),
         publicPath: '/'
       }
     ],
     hot: true,
     devMiddleware: {
-      publicPath: '/dist/'
+      publicPath: '/'
     }
   }
-};
+}
