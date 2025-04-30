@@ -30,7 +30,6 @@ HUST-RPG 是一款以华中科技大学校园为背景的网页 RPG 游戏。玩
 ```
 HUST-RPG
 ├── assets/          # 游戏资源文件（图片、音效等）
-├── components/      # 游戏组件（如主场景）
 ├── scenes/          # 游戏场景文件
 ├── scripts/         # 游戏初始化脚本
 ├── styles/          # 样式文件（CSS/SCSS）
