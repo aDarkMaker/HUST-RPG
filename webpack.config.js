@@ -22,23 +22,19 @@ module.exports = {
     rules: [
       {
         test: /\.(png|jpg|gif)$/i,
-        type: 'asset/resource',
+        type: 'asset',
         generator: {
-          filename: 'assets/[hash][ext][query]'
+          filename: 'assets/[name][ext]'
         }
       }
     ]
   },
   devServer: {
-    static: [
-      {
-        directory: path.join(__dirname),
-        publicPath: '/'
-      }
-    ],
-    hot: true,
-    devMiddleware: {
+    static: {
+      directory: path.join(__dirname),
       publicPath: '/'
-    }
+    },
+    hot: true,
+    open: true
   }
 }
